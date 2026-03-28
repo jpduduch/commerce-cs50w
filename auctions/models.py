@@ -14,5 +14,7 @@ class Auction_listing(models.Model):
     # The default route of your web application should let users view all of the currently active auction listings. For each active listing, this page should display (at minimum) the title, description, current price, and photo (if one exists for the listing).
 
 # handles bids
+class Bid(models.Model):
+    value = 
 
 # handles comments on auction listings
