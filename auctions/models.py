@@ -3,18 +3,39 @@ from django.db import models
 
 # handles users
 class User(AbstractUser):
-    pass
+    watchlist = models.ManyToManyField('Listing', blank=True)
+
+    def __str__(self):
+        return self.username
 
 # handles auction listings
-class Auction_listing(models.Model):
+class Listing(models.Model):
     title = models.CharField(max_length=64)
     description = models.TextField()
-    current_price = models.DecimalField(max_digits=8, decimal_places=2)
-    image = models.ImageField()
-    # The default route of your web application should let users view all of the currently active auction listings. For each active listing, this page should display (at minimum) the title, description, current price, and photo (if one exists for the listing).
+    seller = models.ForeignKey(User, on_delete=models.CASCADE)
+    creation_date = models.DateTimeField(auto_now_add=True)
+    thumbnail = models.ImageField(blank=True, null=True)
 
-# handles bids
+    def __str__(self):
+        return self.title
+
+
 class Bid(models.Model):
-    value = 
+    value = models.DecimalField(max_digits=8, decimal_places=2)
+    date = models.DateTimeField(auto_now_add=True)
+    listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
+    bidder = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"$ {self.value}"
+
+
+class Comment(models.Model):
+    comment = models.TextField()
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now_add=True)
+    listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
+
+
 
 # handles comments on auction listings
