@@ -36,6 +36,9 @@ class Comment(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.comment
+
 
 
 # handles comments on auction listings
