@@ -12,9 +12,10 @@ class User(AbstractUser):
 class Listing(models.Model):
     title = models.CharField(max_length=64)
     description = models.TextField()
+    starting_price = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     seller = models.ForeignKey(User, on_delete=models.CASCADE)
     creation_date = models.DateTimeField(auto_now_add=True)
-    thumbnail = models.ImageField(blank=True, null=True)
+    thumbnail = models.ImageField(blank=True, null=True, upload_to="listings/")
 
     def __str__(self):
         return self.title

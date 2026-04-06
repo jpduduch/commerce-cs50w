@@ -6,6 +6,7 @@ from django.shortcuts import render
 from django.urls import reverse
 
 from .models import User, Listing
+from .forms import ListingForm
 
 
 def index(request):
@@ -70,6 +71,9 @@ def register(request):
 
 @login_required
 def create_listing(request):
-    return render(request, "auctions/create_listing.html")
+    if request.method == "GET":
+        return render(request, "auctions/create_listing.html", {
+            "form": ListingForm()
+        })
 
 #Create Listing: Users should be able to visit a page to create a new listing. They should be able to specify a title for the listing, a text-based description, and what the starting bid should be. Users should also optionally be able to provide a URL for an image for the listing and/or a category (e.g. Fashion, Toys, Electronics, Home, etc.).
