@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse
 
 from .models import User, Listing
@@ -71,9 +71,17 @@ def register(request):
 
 @login_required
 def create_listing(request):
-    if request.method == "GET":
-        return render(request, "auctions/create_listing.html", {
-            "form": ListingForm()
-        })
+    if request.method == "POST":
+        form = ListingForm(request.POST, request.FILES)
+        if form.is_valid():
+            listing = form.save(commit=False)
+            listing.seller = request.user
+            listing.save()
+            return redirect("index")
+    else:
+        form = ListingForm()
 
+    return render(request, "auctions/create_listing.html", {
+        "form": form
+    })
 #Create Listing: Users should be able to visit a page to create a new listing. They should be able to specify a title for the listing, a text-based description, and what the starting bid should be. Users should also optionally be able to provide a URL for an image for the listing and/or a category (e.g. Fashion, Toys, Electronics, Home, etc.).

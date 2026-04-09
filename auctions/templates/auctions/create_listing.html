@@ -5,10 +5,11 @@
 
         <h2>New Listing</h2>
 
-        <form action="" method="post">
+        <form action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="d-flex flex-column gap-3">
                 {{ form }}
+                <input type="submit" class="btn btn-primary" value="Create Listing">
             </div>
         </form>
 

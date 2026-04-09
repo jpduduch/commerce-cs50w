@@ -1,0 +1,86 @@
+[
+{
+  "model": "auctions.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$No1Xl38ilCRvKlBrO9VyJ1$+sXjqUgHZOkJsDdTQfXUC0P8IUCQcqcWsJOTI5OmgIA=",
+    "last_login": null,
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-04-07T13:33:31.942Z",
+    "groups": [],
+    "user_permissions": [],
+    "watchlist": []
+  }
+},
+{
+  "model": "auctions.user",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$gXrK6A1k7OJDq1VBvsUAkL$jYuaCQynG3Toal5g56kosH/dSOk2foSMK014Y+g7a8Q=",
+    "last_login": "2026-04-07T13:35:06.764Z",
+    "is_superuser": false,
+    "username": "harry",
+    "first_name": "",
+    "last_name": "",
+    "email": "harry@hogwarts.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-04-07T13:34:21.232Z",
+    "groups": [],
+    "user_permissions": [],
+    "watchlist": []
+  }
+},
+{
+  "model": "auctions.user",
+  "pk": 3,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$Wv3aPfiv0MDqGCAi1a3iFD$VRYvrWNt7LOyeBhhU19dyjV0XKJ8YsGlq2/b8K8KJwg=",
+    "last_login": "2026-04-07T13:34:44.090Z",
+    "is_superuser": false,
+    "username": "hermione",
+    "first_name": "",
+    "last_name": "",
+    "email": "hermione@hogwarts.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-04-07T13:34:43.902Z",
+    "groups": [],
+    "user_permissions": [],
+    "watchlist": []
+  }
+},
+{
+  "model": "auctions.user",
+  "pk": 4,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$yUWezD3tAHV9UYxMmL54Bx$z2edxFfuebmQOL7Lu5NFY/BCILlWvW9JvkHis/v3VEU=",
+    "last_login": "2026-04-07T13:34:58.196Z",
+    "is_superuser": false,
+    "username": "ron",
+    "first_name": "",
+    "last_name": "",
+    "email": "ron@hogwarts.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-04-07T13:34:58.037Z",
+    "groups": [],
+    "user_permissions": [],
+    "watchlist": []
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "7jbds16jm446lsyxu9ez0ooibducpw21",
+  "fields": {
+    "session_data": ".eJxVjEEOwiAQAP_C2RCgUNCjd99AdpdFqgaS0p6MfzckPeh1ZjJvEWHfStw7r3FJ4iKMOP0yBHpyHSI9oN6bpFa3dUE5EnnYLm8t8et6tH-DAr2MLTOyCqSt8oFMctaicznMMDkMwbqsgzOGTD4r4NlPmTgBECo0pH0Wny_kATha:1wA6aA:_QHSNEgcu7h28F9VGbisw0d19dvjKLLS3k47p-UT3yk",
+    "expire_date": "2026-04-21T13:35:06.765Z"
+  }
+}
+]
