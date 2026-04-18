@@ -3,9 +3,36 @@
 {% block body %}
     <h2>Active Listings</h2>
 
-    {% for listing in listings %}
-        {{ listing }}
-    {% empty %}
-        No active listings.
-    {% endfor %}
+    <section class="container row">
+        {% for listing in listings %}
+            <div class="card col col-12 col-sm-6 col-md-4 col-lg-3 py-3 mx-1 my-3 d-flex ">
+                {% if listing.thumbnail %}
+                    <img src="{{ listing.thumbnail.url }}" alt="{{ listing.title }}" class="card-img-top img-fluid object-fit-cover" style="height: 180px">
+                {% else %}
+                    <svg aria-label="Placeholder: Image cap" class="bd-placeholder-img card-img-top" height="180" preserveAspectRatio="xMidYMid slice" role="img" width="100%" xmlns="http://www.w3.org/2000/svg">
+                        <title>Placeholder</title>
+                        <rect width="100%" height="100%" fill="#868e96"></rect>
+                        <text x="50%" y="50%" fill="#dee2e6" dominant-baseline="middle" text-anchor="middle" >No image</text>
+                    </svg>
+                {% endif %}
+                
+                <span class="fs-6 py-1">by <strong>{{ listing.seller }}</strong></span>
+                <h5 class="card-title">{{ listing.title }}</h5>
+                <p class="card-text d-flex flex-fill">{{ listing.description }}</p>
+                <h6>$ {{ listing.starting_price }}</h6>
+                <a href="{{ listing.url }}" class="btn btn-primary">See item</a>
+            </div>
+        {% empty %}
+            No active listings.
+        {% endfor %}
+    </section>
 {% endblock %}
+
+<div class="card" style="width: 18rem;">
+  <img src="..." class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">Card title</h5>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+</div>
