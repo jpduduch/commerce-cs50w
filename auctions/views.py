@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 
 from .models import User, Listing
@@ -13,8 +13,6 @@ def index(request):
     return render(request, "auctions/index.html", {
         "listings": Listing.objects.all().order_by('-creation_date')
     })
-
-# The default route of your web application should let users view all of the currently active auction listings. For each active listing, this page should display (at minimum) the title, description, current price, and photo (if one exists for the listing).
 
 
 def login_view(request):
@@ -84,4 +82,9 @@ def create_listing(request):
     return render(request, "auctions/create_listing.html", {
         "form": form
     })
-#Create Listing: Users should be able to visit a page to create a new listing. They should be able to specify a title for the listing, a text-based description, and what the starting bid should be. Users should also optionally be able to provide a URL for an image for the listing and/or a category (e.g. Fashion, Toys, Electronics, Home, etc.).
+
+
+def listing(request, listing_id):
+    return render(request, "auctions/listing.html", {
+        "listing": get_object_or_404(Listing, pk=listing_id)
+    })

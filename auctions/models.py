@@ -1,4 +1,5 @@
 from django.contrib.auth.models import AbstractUser
+from django.core.validators import MinValueValidator
 from django.db import models
 
 
@@ -12,7 +13,9 @@ class User(AbstractUser):
 class Listing(models.Model):
     title = models.CharField(max_length=64)
     description = models.TextField()
-    starting_price = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    starting_price = models.DecimalField(max_digits=8, decimal_places=2, default=0, validators=[
+        MinValueValidator(0)
+    ])
     seller = models.ForeignKey(User, on_delete=models.CASCADE)
     creation_date = models.DateTimeField(auto_now_add=True)
     thumbnail = models.ImageField(blank=True, null=True, upload_to="listings/")

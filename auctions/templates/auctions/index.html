@@ -1,4 +1,5 @@
 {% extends "auctions/layout.html" %}
+{% load static %}
 
 {% block body %}
     <h2>Active Listings</h2>
@@ -9,18 +10,15 @@
                 {% if listing.thumbnail %}
                     <img src="{{ listing.thumbnail.url }}" alt="{{ listing.title }}" class="card-img-top img-fluid object-fit-cover" style="height: 180px">
                 {% else %}
-                    <svg aria-label="Placeholder: Image cap" class="bd-placeholder-img card-img-top" height="180" preserveAspectRatio="xMidYMid slice" role="img" width="100%" xmlns="http://www.w3.org/2000/svg">
-                        <title>Placeholder</title>
-                        <rect width="100%" height="100%" fill="#868e96"></rect>
-                        <text x="50%" y="50%" fill="#dee2e6" dominant-baseline="middle" text-anchor="middle" >No image</text>
-                    </svg>
+                    <img src="{% static 'auctions/images/imageless_listing.svg' %}" alt="No image">
                 {% endif %}
                 
                 <span class="fs-6 py-1">by <strong>{{ listing.seller }}</strong></span>
                 <h5 class="card-title">{{ listing.title }}</h5>
                 <p class="card-text d-flex flex-fill">{{ listing.description }}</p>
-                <h6>$ {{ listing.starting_price }}</h6>
-                <a href="{{ listing.url }}" class="btn btn-primary">See item</a>
+                <caption class="fs-6">Current price:</caption>
+                <h6 class="pb-3">$ {{ listing.starting_price }}</h6>
+                <a href="{% url 'listing' listing.id %}" class="btn btn-primary">See item</a>
             </div>
         {% empty %}
             No active listings.
