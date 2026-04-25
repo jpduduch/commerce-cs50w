@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 
 from .models import User, Listing
-from .forms import ListingForm
+from .forms import ListingForm, BiddingForm
 
 
 def index(request):
@@ -86,5 +86,6 @@ def create_listing(request):
 
 def listing(request, listing_id):
     return render(request, "auctions/listing.html", {
-        "listing": get_object_or_404(Listing, pk=listing_id)
+        "listing": get_object_or_404(Listing, pk=listing_id),
+        "form": BiddingForm()
     })

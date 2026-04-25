@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Listing
+from .models import Listing, Bid
 
 class ListingForm(forms.ModelForm):
     class Meta:
@@ -25,4 +25,18 @@ class ListingForm(forms.ModelForm):
                 "class": "form-control"
             })
         }
-    
+
+class BiddingForm(forms.ModelForm):
+    class Meta:
+        model = Bid
+        fields = [
+            "value"
+        ]
+        labels = {
+            "value": ""
+        }
+        widgets = {
+            "value": forms.NumberInput(attrs={
+                "class": "form-control"
+            })
+        }

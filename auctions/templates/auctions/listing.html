@@ -2,12 +2,29 @@
 
 {% block body %}
 
-    <section class="container row">
-        <div id="thumbnail" class="col col-12 col-md-6">
-            dsada
-            {% comment %} implementar a listing individual. Imagem a direita, conteúdo a esquerda. {% endcomment %}
+    <section class="container-lg">
+        <div class="row justify-content-center py-3">
+            {% if listing.thumbnail %}
+                <img src="{{ listing.thumbnail.url }}" alt="{{ listing.title }}" class="img-fluid object-fit-cover col col-12 col-md-6 col-lg-8">
+            {% endif %}
+            <div id="content" class="col col-12 col-md-6 col-lg-4 p-sm-2 p-md-3 p-lg-4">
+                <caption>by <strong>{{ listing.seller }}</strong></caption>
+                <h3>{{ listing.title }}</h3>
+                <p class="fs-6">Starting price</p>
+                <h4>{{ listing.starting_price }}</h4>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <div class="d-flex flex-column gap-1 my-4">
+                        {{ form }}
+                        <input type="submit" class="btn btn-primary" value="Place bid">
+                    </div>
+                </form>
+                <hr>
+                <p>{{ listing.description }}</p>
+            </div>
         </div>
     </section>
 
+    {% comment %} Adicionar lógica para não mostrar botão de place bid caso o usuário não esteja logado {% endcomment %}
 
 {% endblock body %}
