@@ -1,3 +1,5 @@
 .venv
 db.sqlite3
 /media
+auctions/__pycache__
+commerce/__pycache__

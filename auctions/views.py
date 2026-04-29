@@ -5,11 +5,12 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 
-from .models import User, Listing
+from .models import User, Listing, Bid
 from .forms import ListingForm, BiddingForm
 
 
 def index(request):
+    
     return render(request, "auctions/index.html", {
         "listings": Listing.objects.all().order_by('-creation_date')
     })
@@ -71,11 +72,17 @@ def register(request):
 def create_listing(request):
     if request.method == "POST":
         form = ListingForm(request.POST, request.FILES)
-        if form.is_valid():
-            listing = form.save(commit=False)
-            listing.seller = request.user
-            listing.save()
-            return redirect("index")
+        
+        if not form.is_valid():
+            return render(request, "auctions/create_listing.html", {
+                "form": form
+            })
+        
+        listing = form.save(commit=False)
+        listing.seller = request.user
+        listing.save()
+        return redirect("index")
+    
     else:
         form = ListingForm()
 
@@ -85,6 +92,26 @@ def create_listing(request):
 
 
 def listing(request, listing_id):
+    if request.method == 'POST':
+        form = BiddingForm(request.POST)
+        top_bid = Bid.objects.filter(listing=listing_id).order_by('-value').first()
+        Listing.top_bid = top_bid
+
+
+        if not form.is_valid():
+            return render(request, "auctions/listing.html", {
+                "listing": get_object_or_404(Listing, pk=listing_id),
+                "form": form
+            })
+
+        
+        # bid = form.save(commit=False)
+        # bid.bidder = request.user
+        # bid.listing = listing_id
+        # bid.save()
+
+            # implementar: apenas aceitar o bid se for maior que o último ou o starting price
+
     return render(request, "auctions/listing.html", {
         "listing": get_object_or_404(Listing, pk=listing_id),
         "form": BiddingForm()

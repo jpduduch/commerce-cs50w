@@ -17,7 +17,7 @@
                 <h5 class="card-title">{{ listing.title }}</h5>
                 <p class="card-text d-flex flex-fill">{{ listing.description }}</p>
                 <caption class="fs-6">Current price:</caption>
-                <h6 class="pb-3">$ {{ listing.starting_price }}</h6>
+                <h6 class="pb-3">$ {{ listing.current_price }}</h6>
                 <a href="{% url 'listing' listing.id %}" class="btn btn-primary">See item</a>
             </div>
         {% empty %}
@@ -25,12 +25,3 @@
         {% endfor %}
     </section>
 {% endblock %}
-
-<div class="card" style="width: 18rem;">
-  <img src="..." class="card-img-top" alt="...">
-  <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
-  </div>
-</div>

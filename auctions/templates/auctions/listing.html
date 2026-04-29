@@ -1,4 +1,5 @@
 {% extends "auctions/layout.html" %}
+{% load static %}
 
 {% block body %}
 
@@ -6,6 +7,8 @@
         <div class="row justify-content-center py-3">
             {% if listing.thumbnail %}
                 <img src="{{ listing.thumbnail.url }}" alt="{{ listing.title }}" class="img-fluid object-fit-cover col col-12 col-md-6 col-lg-8">
+            {% else %}
+                <img src="{% static 'auctions/images/imageless_listing.svg' %}" alt="No image" class="img-fluid col col-12 col-md-6 col-lg-8">
             {% endif %}
             <div id="content" class="col col-12 col-md-6 col-lg-4 p-sm-2 p-md-3 p-lg-4">
                 <caption>by <strong>{{ listing.seller }}</strong></caption>
@@ -24,7 +27,5 @@
             </div>
         </div>
     </section>
-
-    {% comment %} Adicionar lógica para não mostrar botão de place bid caso o usuário não esteja logado {% endcomment %}
 
 {% endblock body %}
