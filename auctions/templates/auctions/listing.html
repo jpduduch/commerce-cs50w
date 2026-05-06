@@ -13,15 +13,17 @@
             <div id="content" class="col col-12 col-md-6 col-lg-4 p-sm-2 p-md-3 p-lg-4">
                 <caption>by <strong>{{ listing.seller }}</strong></caption>
                 <h3>{{ listing.title }}</h3>
-                <p class="fs-6">Starting price</p>
-                <h4>{{ listing.starting_price }}</h4>
-                <form action="" method="post">
-                    {% csrf_token %}
-                    <div class="d-flex flex-column gap-1 my-4">
-                        {{ form }}
-                        <input type="submit" class="btn btn-primary" value="Place bid">
-                    </div>
-                </form>
+                <p class="fs-6">Current price</p>
+                <h4>{{ listing.current_price }}</h4>
+                {% if user.is_authenticated %}
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <div class="d-flex flex-column gap-1 my-4">
+                            {{ form }}
+                            <input type="submit" class="btn btn-primary" value="Place bid">
+                        </div>
+                    </form>
+                {% endif %}
                 <hr>
                 <p>{{ listing.description }}</p>
             </div>

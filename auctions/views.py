@@ -93,24 +93,33 @@ def create_listing(request):
 
 def listing(request, listing_id):
     if request.method == 'POST':
+        if not request.user.is_authenticated:
+            login_url = reverse("login")
+            return redirect(f"{login_url}?next={request.path}")
+        
         form = BiddingForm(request.POST)
-        top_bid = Bid.objects.filter(listing=listing_id).order_by('-value').first()
-        Listing.top_bid = top_bid
-
 
         if not form.is_valid():
             return render(request, "auctions/listing.html", {
                 "listing": get_object_or_404(Listing, pk=listing_id),
                 "form": form
             })
-
         
-        # bid = form.save(commit=False)
-        # bid.bidder = request.user
-        # bid.listing = listing_id
-        # bid.save()
+        listing = Listing.objects.get(pk=listing_id)
+        
+        if not form.cleaned_data["value"] > listing.current_price:
 
-            # implementar: apenas aceitar o bid se for maior que o último ou o starting price
+            form.add_error("value", "Bid must be higher than current price.")
+
+            return render(request, "auctions/listing.html", {
+                "listing": get_object_or_404(Listing, pk=listing_id),
+                "form": form
+            })
+        
+        bid = form.save(commit=False)
+        bid.bidder = request.user
+        bid.listing = listing
+        bid.save()
 
     return render(request, "auctions/listing.html", {
         "listing": get_object_or_404(Listing, pk=listing_id),
