@@ -20,15 +20,14 @@ class Listing(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
     thumbnail = models.ImageField(blank=True, null=True, upload_to="listings/")
 
-    def __str__(self):
-        return self.title
-    
     @property
     def current_price(self):
         highest_bid = self.bids.order_by('-value').first()
         
         return self.starting_price if highest_bid is None else highest_bid.value
     
+    def __str__(self):
+        return self.title
 
 class Bid(models.Model):
     value = models.DecimalField(max_digits=8, decimal_places=2, default=0,

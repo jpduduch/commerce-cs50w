@@ -5,7 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 
-from .models import User, Listing, Bid
+from .models import User, Listing
 from .forms import ListingForm, BiddingForm
 
 
@@ -28,6 +28,7 @@ def login_view(request):
         if user is not None:
             login(request, user)
             return HttpResponseRedirect(reverse("index"))
+        
         else:
             return render(request, "auctions/login.html", {
                 "message": "Invalid username and/or password."
@@ -92,27 +93,36 @@ def create_listing(request):
 
 
 def listing(request, listing_id):
-    if request.method == 'POST':
-        form = BiddingForm(request.POST)
-        top_bid = Bid.objects.filter(listing=listing_id).order_by('-value').first()
-        Listing.top_bid = top_bid
+    
+    listing = get_object_or_404(Listing, pk=listing_id)
 
+    if request.method == 'POST':
+        if not request.user.is_authenticated:
+            return redirect("login")
+        
+        form = BiddingForm(request.POST)
 
         if not form.is_valid():
             return render(request, "auctions/listing.html", {
-                "listing": get_object_or_404(Listing, pk=listing_id),
+                "listing": listing,
                 "form": form
             })
-
         
-        # bid = form.save(commit=False)
-        # bid.bidder = request.user
-        # bid.listing = listing_id
-        # bid.save()
+        if form.cleaned_data["value"] <= listing.current_price:
+            form.add_error("value", "Bid must be higher than current price.")
 
-            # implementar: apenas aceitar o bid se for maior que o último ou o starting price
+            return render(request, "auctions/listing.html", {
+                "listing": listing,
+                "form": form
+            })
+        
+        bid = form.save(commit=False)
+        bid.bidder = request.user
+        bid.listing = listing
+        bid.save()
+        return redirect("listing", listing_id=listing_id)
 
     return render(request, "auctions/listing.html", {
-        "listing": get_object_or_404(Listing, pk=listing_id),
+        "listing": listing,
         "form": BiddingForm()
     })
