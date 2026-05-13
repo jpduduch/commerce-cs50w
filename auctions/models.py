@@ -43,10 +43,10 @@ class Bid(models.Model):
 
 
 class Comment(models.Model):
-    comment = models.TextField()
+    message = models.TextField()
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.comment
+        return self.message

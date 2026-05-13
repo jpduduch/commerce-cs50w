@@ -1,0 +1,353 @@
+[
+{
+  "model": "auctions.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$No1Xl38ilCRvKlBrO9VyJ1$+sXjqUgHZOkJsDdTQfXUC0P8IUCQcqcWsJOTI5OmgIA=",
+    "last_login": "2026-05-07T14:43:58.576Z",
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-04-07T13:33:31.942Z",
+    "groups": [],
+    "user_permissions": [],
+    "watchlist": []
+  }
+},
+{
+  "model": "auctions.user",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$gXrK6A1k7OJDq1VBvsUAkL$jYuaCQynG3Toal5g56kosH/dSOk2foSMK014Y+g7a8Q=",
+    "last_login": "2026-05-07T14:44:33.323Z",
+    "is_superuser": false,
+    "username": "harry",
+    "first_name": "",
+    "last_name": "",
+    "email": "harry@hogwarts.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-04-07T13:34:21.232Z",
+    "groups": [],
+    "user_permissions": [],
+    "watchlist": []
+  }
+},
+{
+  "model": "auctions.user",
+  "pk": 3,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$Wv3aPfiv0MDqGCAi1a3iFD$VRYvrWNt7LOyeBhhU19dyjV0XKJ8YsGlq2/b8K8KJwg=",
+    "last_login": "2026-04-07T13:34:44.090Z",
+    "is_superuser": false,
+    "username": "hermione",
+    "first_name": "",
+    "last_name": "",
+    "email": "hermione@hogwarts.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-04-07T13:34:43.902Z",
+    "groups": [],
+    "user_permissions": [],
+    "watchlist": []
+  }
+},
+{
+  "model": "auctions.user",
+  "pk": 4,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$yUWezD3tAHV9UYxMmL54Bx$z2edxFfuebmQOL7Lu5NFY/BCILlWvW9JvkHis/v3VEU=",
+    "last_login": "2026-04-07T13:34:58.196Z",
+    "is_superuser": false,
+    "username": "ron",
+    "first_name": "",
+    "last_name": "",
+    "email": "ron@hogwarts.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-04-07T13:34:58.037Z",
+    "groups": [],
+    "user_permissions": [],
+    "watchlist": []
+  }
+},
+{
+  "model": "auctions.listing",
+  "pk": 8,
+  "fields": {
+    "title": "Teste com imagem",
+    "description": "teste massa com imagem massa",
+    "starting_price": "11.83",
+    "seller": 2,
+    "creation_date": "2026-04-18T11:27:22.086Z",
+    "thumbnail": "listings/spongebob-2839362443_YqFW6Fa.gif"
+  }
+},
+{
+  "model": "auctions.listing",
+  "pk": 9,
+  "fields": {
+    "title": "teste sem imagem",
+    "description": "Esse teste eu quero ver como funfa sem a bendita imagem.",
+    "starting_price": "122.96",
+    "seller": 2,
+    "creation_date": "2026-04-18T12:11:17.731Z",
+    "thumbnail": ""
+  }
+},
+{
+  "model": "auctions.listing",
+  "pk": 10,
+  "fields": {
+    "title": "Terceiro teste",
+    "description": "Slporr",
+    "starting_price": "-2312.00",
+    "seller": 2,
+    "creation_date": "2026-04-18T12:37:32.227Z",
+    "thumbnail": "listings/Miyaz.jpeg"
+  }
+},
+{
+  "model": "auctions.listing",
+  "pk": 11,
+  "fields": {
+    "title": "teste com mt mt mt mt mt mt mt mt mt mt  texto",
+    "description": "Mas mt mt mt mt mt mt mt mt mt mt mt mt mt mt texto poraaaa quero escrever txtoooooooo amo escrever kkkkk escreve mais nessa porra caralhoooo",
+    "starting_price": "11.00",
+    "seller": 2,
+    "creation_date": "2026-04-18T12:43:23.633Z",
+    "thumbnail": "listings/CFefkBZWYAACYfN.jpg"
+  }
+},
+{
+  "model": "auctions.listing",
+  "pk": 12,
+  "fields": {
+    "title": "test sem imagem",
+    "description": "teste",
+    "starting_price": "1.00",
+    "seller": 2,
+    "creation_date": "2026-04-18T13:02:15.689Z",
+    "thumbnail": ""
+  }
+},
+{
+  "model": "auctions.listing",
+  "pk": 13,
+  "fields": {
+    "title": "Teste de valor negativo",
+    "description": "akjklfwjkp wweo[i rwekl[wr e[p[wd [",
+    "starting_price": "11.92",
+    "seller": 2,
+    "creation_date": "2026-04-25T10:55:24.056Z",
+    "thumbnail": "listings/FFj_3K7XIAQBfUm.jpeg"
+  }
+},
+{
+  "model": "auctions.listing",
+  "pk": 16,
+  "fields": {
+    "title": "fsdf",
+    "description": "ddasd",
+    "starting_price": "11.00",
+    "seller": 2,
+    "creation_date": "2026-04-28T10:28:28.346Z",
+    "thumbnail": ""
+  }
+},
+{
+  "model": "auctions.bid",
+  "pk": 1,
+  "fields": {
+    "value": "12.00",
+    "date": "2026-05-06T10:57:15.349Z",
+    "listing": 16,
+    "bidder": 2
+  }
+},
+{
+  "model": "auctions.bid",
+  "pk": 2,
+  "fields": {
+    "value": "23.00",
+    "date": "2026-05-06T10:57:50.111Z",
+    "listing": 16,
+    "bidder": 2
+  }
+},
+{
+  "model": "auctions.bid",
+  "pk": 3,
+  "fields": {
+    "value": "24.00",
+    "date": "2026-05-07T11:27:12.857Z",
+    "listing": 16,
+    "bidder": 2
+  }
+},
+{
+  "model": "auctions.bid",
+  "pk": 6,
+  "fields": {
+    "value": "14.00",
+    "date": "2026-05-11T07:14:30.899Z",
+    "listing": 13,
+    "bidder": 2
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 1,
+  "fields": {
+    "action_time": "2026-04-18T11:19:55.882Z",
+    "user": 1,
+    "content_type": 3,
+    "object_id": "7",
+    "object_repr": "test",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 2,
+  "fields": {
+    "action_time": "2026-04-18T11:19:55.882Z",
+    "user": 1,
+    "content_type": 3,
+    "object_id": "6",
+    "object_repr": "slporr com imagem",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 3,
+  "fields": {
+    "action_time": "2026-04-18T11:19:55.882Z",
+    "user": 1,
+    "content_type": 3,
+    "object_id": "5",
+    "object_repr": "slporr2",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 4,
+  "fields": {
+    "action_time": "2026-04-18T11:19:55.882Z",
+    "user": 1,
+    "content_type": 3,
+    "object_id": "4",
+    "object_repr": "slporr",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 5,
+  "fields": {
+    "action_time": "2026-04-18T11:19:55.883Z",
+    "user": 1,
+    "content_type": 3,
+    "object_id": "3",
+    "object_repr": "Testing",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 6,
+  "fields": {
+    "action_time": "2026-04-18T11:19:55.883Z",
+    "user": 1,
+    "content_type": 3,
+    "object_id": "2",
+    "object_repr": "Testing",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 7,
+  "fields": {
+    "action_time": "2026-04-18T11:19:55.883Z",
+    "user": 1,
+    "content_type": 3,
+    "object_id": "1",
+    "object_repr": "Testing",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 8,
+  "fields": {
+    "action_time": "2026-05-07T14:25:42.760Z",
+    "user": 1,
+    "content_type": 1,
+    "object_id": "5",
+    "object_repr": "$ 13.00",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 9,
+  "fields": {
+    "action_time": "2026-05-07T14:25:42.760Z",
+    "user": 1,
+    "content_type": 1,
+    "object_id": "4",
+    "object_repr": "$ 12.00",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 10,
+  "fields": {
+    "action_time": "2026-05-07T14:44:16.315Z",
+    "user": 1,
+    "content_type": 3,
+    "object_id": "15",
+    "object_repr": "",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 11,
+  "fields": {
+    "action_time": "2026-05-07T14:44:16.315Z",
+    "user": 1,
+    "content_type": 3,
+    "object_id": "14",
+    "object_repr": "",
+    "action_flag": 3,
+    "change_message": ""
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "nn0b71wbe4aphxb2nqokoo5mx3m7839u",
+  "fields": {
+    "session_data": ".eJxVjEEOwiAQAP_C2RCgUNCjd99AdpdFqgaS0p6MfzckPeh1ZjJvEWHfStw7r3FJ4iKMOP0yBHpyHSI9oN6bpFa3dUE5EnnYLm8t8et6tH-DAr2MLTOyCqSt8oFMctaicznMMDkMwbqsgzOGTD4r4NlPmTgBECo0pH0Wny_kATha:1wKzxp:Y_DygfHLGaV8r8WX2PWTRuOZbcLGatDOTPFLiYXSius",
+    "expire_date": "2026-05-21T14:44:33.323Z"
+  }
+}
+]
