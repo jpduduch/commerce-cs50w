@@ -96,18 +96,21 @@ def listing(request, listing_id):
     
     listing = get_object_or_404(Listing, pk=listing_id)
 
+    # login is required to post
     if request.method == 'POST':
         if not request.user.is_authenticated:
             return redirect("login")
         
         form = BiddingForm(request.POST)
 
+        # form validation
         if not form.is_valid():
             return render(request, "auctions/listing.html", {
                 "listing": listing,
                 "form": form
             })
         
+        # ensure that a bid is only sent if it is higher than current price
         if form.cleaned_data["value"] <= listing.current_price:
             form.add_error("value", "Bid must be higher than current price.")
 
@@ -116,6 +119,7 @@ def listing(request, listing_id):
                 "form": form
             })
         
+        # saves value to database if higher than current price
         bid = form.save(commit=False)
         bid.bidder = request.user
         bid.listing = listing
