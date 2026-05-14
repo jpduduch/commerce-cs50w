@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.views.decorators.http import require_POST
 
 from .models import User, Listing, Comment
-from .forms import ListingForm, BiddingForm
+from .forms import ListingForm, BiddingForm, CommentingForm
 
 
 def index(request):
@@ -96,11 +96,15 @@ def create_listing(request):
 def listing(request, listing_id):
     
     listing = get_object_or_404(Listing, pk=listing_id)
-    form = BiddingForm()
+    form_bid = BiddingForm()
+    comments = Comment.objects.filter(listing=listing_id).order_by("-date")
+    form_comments = CommentingForm()
 
     return render(request, "auctions/listing.html", {
         "listing": listing,
-        "form": form
+        "form_bid": form_bid,
+        "comments": comments,
+        "form_comment": form_comments
 
     })
 
@@ -113,25 +117,60 @@ def place_bid(request, listing_id):
     if not request.user.is_authenticated:
         return redirect("login")
     
-    form = BiddingForm(request.POST)
     listing = get_object_or_404(Listing, pk=listing_id)
+    form_bid = BiddingForm(request.POST)
+    comments = Comment.objects.filter(listing=listing_id).order_by("-date")
+    form_comments = CommentingForm()
 
-    if not form.is_valid():
+    if not form_bid.is_valid():
         return render(request, "auctions/listing.html", {
             "listing": listing,
-            "form": form
+            "form_bid": form_bid,
+            "comments": comments,
+            "form_comment": form_comments
         })
     
-    if form.cleaned_data["value"] <= listing.current_price:
-        form.add_error("value", "Bid must be higher than current price.")
+    if form_bid.cleaned_data["value"] <= listing.current_price:
+        form_bid.add_error("value", "Bid must be higher than current price.")
         return render(request, "auctions/listing.html", {
-            "listing": listing,
-            "form": form
+           "listing": listing,
+            "form_bid": form_bid,
+            "comments": comments,
+            "form_comment": form_comments
         })
     
-    bid = form.save(commit=False)
+    bid = form_bid.save(commit=False)
     bid.bidder = request.user
     bid.listing = listing
     bid.save()
 
+    return redirect("listing", listing_id=listing_id)
+
+
+def post_comment(request, listing_id):
+
+    if not request.method == "POST":
+        return redirect("listing", listing_id=listing_id)
+    
+    if not request.user.is_authenticated:
+        return redirect("login")
+    
+    form_comment = CommentingForm(request.POST)
+    listing = get_object_or_404(Listing, pk=listing_id)
+    form_bid = BiddingForm()
+    comments = Comment.objects.filter(listing=listing_id).order_by("-date")
+    
+    if not form_comment.is_valid():
+        return render(request, "auctions/listing.html", {
+            "listing": listing,
+            "form_bid": form_bid,
+            "form_comment": form_comment,
+            "comments": comments
+        })
+
+    comment = form_comment.save(commit=False)
+    comment.author = request.user
+    comment.listing = listing
+    comment.save()
+    
     return redirect("listing", listing_id=listing_id)
