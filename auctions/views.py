@@ -4,7 +4,7 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
-from django.views.decorators.http import require_POST
+from .utils import handle_bid
 
 from .models import User, Listing, Comment
 from .forms import ListingForm, BiddingForm
@@ -93,38 +93,30 @@ def create_listing(request):
     })
 
 
-def listing(request, listing_id, ):
+def listing(request, listing_id):
     
     listing = get_object_or_404(Listing, pk=listing_id)
 
+    if request.method == "POST":
+        if not request.user.is_authenticated:
+            return redirect("login")
+        
+        form = handle_bid(request, listing)
+                
+        if form.is_valid():
+            bid = form.save(commit=False)
+            bid.bidder = request.user
+            bid.listing = listing
+            bid.save()
+            return redirect("listing", listing_id=listing_id)
+        else:
+            return render(request, "auctions/listing.html", {
+                "listing": listing,
+                "form": form
+            })
+
+    # usuário está apenas visualizando a página
     return render(request, "auctions/listing.html", {
         "listing": listing,
         "form": BiddingForm()
     })
-
-
-@require_POST
-def place_bid(request, listing_id):
-    listing = get_object_or_404(Listing, pk=listing_id)
-
-    if not request.user.is_authenticated:
-        return redirect("login")
-        
-    form = BiddingForm(request.POST)
-
-    if not form.is_valid():
-        request.session["bid_form_error"] = form
-        # return render(request, "auctions/listing.html", {
-        #     "listing": listing,
-        #     "form": form
-        # })
-    
-    if form.cleaned_data["value"] <= listing.current_price:
-        request.session["bid_form_error"] = "Bid must be higher than current price."
-        return redirect("listing", listing_id=listing_id)
-    
-    bid = form.save(commit=False)
-    bid.bidder = request.user
-    bid.listing = listing
-    bid.save()
-    return redirect("listing", listing_id=listing_id)
