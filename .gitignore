@@ -3,3 +3,4 @@ db.sqlite3
 /media
 auctions/__pycache__
 commerce/__pycache__
+__pycache__
