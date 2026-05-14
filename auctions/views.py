@@ -4,8 +4,9 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
+from django.views.decorators.http import require_POST
 
-from .models import User, Listing
+from .models import User, Listing, Comment
 from .forms import ListingForm, BiddingForm
 
 
@@ -95,38 +96,42 @@ def create_listing(request):
 def listing(request, listing_id):
     
     listing = get_object_or_404(Listing, pk=listing_id)
-
-    # login is required to post
-    if request.method == 'POST':
-        if not request.user.is_authenticated:
-            return redirect("login")
-        
-        form = BiddingForm(request.POST)
-
-        # form validation
-        if not form.is_valid():
-            return render(request, "auctions/listing.html", {
-                "listing": listing,
-                "form": form
-            })
-        
-        # ensure that a bid is only sent if it is higher than current price
-        if form.cleaned_data["value"] <= listing.current_price:
-            form.add_error("value", "Bid must be higher than current price.")
-
-            return render(request, "auctions/listing.html", {
-                "listing": listing,
-                "form": form
-            })
-        
-        # saves value to database if higher than current price
-        bid = form.save(commit=False)
-        bid.bidder = request.user
-        bid.listing = listing
-        bid.save()
-        return redirect("listing", listing_id=listing_id)
+    form = BiddingForm()
 
     return render(request, "auctions/listing.html", {
         "listing": listing,
-        "form": BiddingForm()
+        "form": form
+
     })
+
+
+def place_bid(request, listing_id):
+
+    if not request.method == "POST":
+        return redirect("listing", listing_id=listing_id)
+
+    if not request.user.is_authenticated:
+        return redirect("login")
+    
+    form = BiddingForm(request.POST)
+    listing = get_object_or_404(Listing, pk=listing_id)
+
+    if not form.is_valid():
+        return render(request, "auctions/listing.html", {
+            "listing": listing,
+            "form": form
+        })
+    
+    if form.cleaned_data["value"] <= listing.current_price:
+        form.add_error("value", "Bid must be higher than current price.")
+        return render(request, "auctions/listing.html", {
+            "listing": listing,
+            "form": form
+        })
+    
+    bid = form.save(commit=False)
+    bid.bidder = request.user
+    bid.listing = listing
+    bid.save()
+
+    return redirect("listing", listing_id=listing_id)
