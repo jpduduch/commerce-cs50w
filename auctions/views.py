@@ -96,6 +96,7 @@ def create_listing(request):
 def listing(request, listing_id):
 
     listing = get_object_or_404(Listing, pk=listing_id)
+
     bid_data = request.session.pop("bid_data", None)
     bid_error = request.session.pop("bid_error", None)
     bidding_form = BiddingForm(bid_data) if bid_data else BiddingForm()
@@ -117,9 +118,9 @@ def listing(request, listing_id):
     })
 
 
+@require_POST
+@login_required
 def place_bid(request, listing_id):
-    if not request.method == "POST":
-        return redirect("listing", listing_id=listing_id)
     
     form = BiddingForm(request.POST)
     request.session["bid_data"] = request.POST.dict()
@@ -140,5 +141,7 @@ def place_bid(request, listing_id):
     return redirect("listing", listing_id=listing_id)
 
 
+@require_POST
+@login_required
 def post_comment(request):
     pass
