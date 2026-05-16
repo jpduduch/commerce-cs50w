@@ -107,8 +107,12 @@ def listing(request, listing_id):
         for field, message in bid_error.items():
             bidding_form.add_error(field, message)
 
-    comments = Comment.objects.filter(listing=listing_id)
-    commenting_form = CommentingForm()
+    comment_data = request.session.pop("comment_data", None)
+    comments = Comment.objects.filter(listing=listing_id).order_by("-date")
+    commenting_form = CommentingForm(comment_data) if comment_data else CommentingForm()
+
+    if comment_data:
+        commenting_form.is_valid()
 
     return render(request, "auctions/listing.html", {
         "listing": listing,
@@ -138,10 +142,23 @@ def place_bid(request, listing_id):
     bid.listing = listing
     bid.bidder = request.user
     bid.save()
+    
     return redirect("listing", listing_id=listing_id)
 
 
 @require_POST
 @login_required
-def post_comment(request):
-    pass
+def post_comment(request, listing_id):
+    
+    form = CommentingForm(request.POST)
+    request.session["comment_data"] = request.POST.dict()
+    
+    if not form.is_valid():
+        return redirect("listing", listing_id=listing_id)
+    
+    comment = form.save(commit=False)
+    comment.author = request.user
+    comment.listing = get_object_or_404(Listing, pk=listing_id)
+    comment.save()
+
+    return redirect("listing", listing_id=listing_id)
