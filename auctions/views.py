@@ -142,14 +142,15 @@ def listing(request, listing_id):
 def place_bid(request, listing_id):
     
     form = BiddingForm(request.POST)
-    request.session["bid_data"] = request.POST.dict()
 
     if not form.is_valid():
+        request.session["bid_data"] = request.POST.dict()
         return redirect("listing", listing_id=listing_id)
     
     listing = get_object_or_404(Listing, pk=listing_id)
     
     if form.cleaned_data["value"] <= listing.current_price:
+        request.session["bid_data"] = request.POST.dict()
         request.session["bid_error"] = {"value": "Bid must be higher than current price."}
         return redirect("listing", listing_id=listing_id)
     
@@ -166,9 +167,9 @@ def place_bid(request, listing_id):
 def post_comment(request, listing_id):
     
     form = CommentingForm(request.POST)
-    request.session["comment_data"] = request.POST.dict()
     
     if not form.is_valid():
+        request.session["comment_data"] = request.POST.dict()
         return redirect("listing", listing_id=listing_id)
     
     comment = form.save(commit=False)
