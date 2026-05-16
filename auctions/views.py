@@ -92,17 +92,6 @@ def create_listing(request):
         "form": form
     })
 
-    # form_type = request.session.pop("form_type", None)
-    # form_data = request.session.pop("form_data", None)
-    # form_error = request.session.pop("form_error", None)
-
-    # match form_type:
-    #     case "bid":
-    #         form = BiddingForm(form_data) if form_data else BiddingForm()
-    #     case "comment":
-    #         form = CommentingForm(form_data) if form_data else CommentingForm()
-    #     case None:
-
 def listing(request, listing_id):
 
     listing = get_object_or_404(Listing, pk=listing_id)
