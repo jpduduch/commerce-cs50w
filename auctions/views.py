@@ -92,25 +92,40 @@ def create_listing(request):
         "form": form
     })
 
+    # form_type = request.session.pop("form_type", None)
+    # form_data = request.session.pop("form_data", None)
+    # form_error = request.session.pop("form_error", None)
+
+    # match form_type:
+    #     case "bid":
+    #         form = BiddingForm(form_data) if form_data else BiddingForm()
+    #     case "comment":
+    #         form = CommentingForm(form_data) if form_data else CommentingForm()
+    #     case None:
 
 def listing(request, listing_id):
 
     listing = get_object_or_404(Listing, pk=listing_id)
 
+    # receives a user bid if there is one
     bid_data = request.session.pop("bid_data", None)
     bid_error = request.session.pop("bid_error", None)
     bidding_form = BiddingForm(bid_data) if bid_data else BiddingForm()
     
+    # handles the bid data
     if bid_data:
         bidding_form.is_valid()
     if bid_error:
         for field, message in bid_error.items():
             bidding_form.add_error(field, message)
 
-    comment_data = request.session.pop("comment_data", None)
     comments = Comment.objects.filter(listing=listing_id).order_by("-date")
+    
+    # receives a user comment if there is any
+    comment_data = request.session.pop("comment_data", None)
     commenting_form = CommentingForm(comment_data) if comment_data else CommentingForm()
 
+    # handles the comment data
     if comment_data:
         commenting_form.is_valid()
 
@@ -142,7 +157,7 @@ def place_bid(request, listing_id):
     bid.listing = listing
     bid.bidder = request.user
     bid.save()
-    
+
     return redirect("listing", listing_id=listing_id)
 
 
