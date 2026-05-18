@@ -12,6 +12,9 @@
             {% endif %}
             <div id="content" class="col col-12 col-md-6 col-lg-4 p-sm-2 p-md-3 p-lg-4">
                 <caption>by <strong>{{ listing.seller }}</strong></caption>
+                {% if not listing.category == None %}
+                    <p class="strong fs-5">Category: {{ listing.category }}</p>
+                {% endif %}
                 <h3>{{ listing.title }}</h3>
                 <p class="fs-6">Current price</p>
                 <h4>{{ listing.current_price }}</h4>

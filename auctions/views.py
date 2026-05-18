@@ -80,6 +80,12 @@ def create_listing(request):
                 "form": form
             })
         
+        if form.cleaned_data["category"] == None:
+            form.add_error("category", "Please pick a category.")
+            return render(request, "auctions/create_listing.html", {
+                "form": form
+            })
+        
         listing = form.save(commit=False)
         listing.seller = request.user
         listing.save()

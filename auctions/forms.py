@@ -1,12 +1,20 @@
 from django import forms
 
-from .models import Listing, Bid, Comment
+from .models import Listing, Bid, Comment, Category
 
 class ListingForm(forms.ModelForm):
+    category = forms.ModelChoiceField(
+        queryset=Category.objects.all(),
+        empty_label="Choose one category",
+        required=False,
+        widget=forms.Select(attrs={"class": "form-control"})
+    )
+
     class Meta:
         model = Listing
         fields = [
             "title",
+            "category",
             "description",
             "starting_price",
             "thumbnail"

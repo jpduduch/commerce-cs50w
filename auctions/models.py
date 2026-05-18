@@ -8,6 +8,13 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.username
+    
+
+class Category(models.Model):
+    name = models.CharField(max_length=64)
+
+    def __str__(self):
+        return self.name
 
 
 class Listing(models.Model):
@@ -19,6 +26,7 @@ class Listing(models.Model):
     seller = models.ForeignKey(User, on_delete=models.CASCADE)
     creation_date = models.DateTimeField(auto_now_add=True)
     thumbnail = models.ImageField(blank=True, null=True, upload_to="listings/")
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
 
     @property
     def current_price(self):
