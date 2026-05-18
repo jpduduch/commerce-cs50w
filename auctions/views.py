@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.views.decorators.http import require_POST
 
-from .models import User, Listing, Comment
+from .models import User, Listing, Comment, Category
 from .forms import ListingForm, BiddingForm, CommentingForm
 
 
@@ -126,6 +126,7 @@ def listing(request, listing_id):
 
     return render(request, "auctions/listing.html", {
         "listing": listing,
+        "category_id": category,
         "bidding_form": bidding_form,
         "comments": comments,
         "commenting_form": commenting_form
@@ -173,3 +174,19 @@ def post_comment(request, listing_id):
     comment.save()
 
     return redirect("listing", listing_id=listing_id)
+
+
+def categories(request):
+    categories = Category.objects.all()
+
+    return render(request, "auctions/categories.html", {
+        "categories": categories
+    })
+
+
+def category(request, category_id):
+    listings = Listing.objects.filter(category=category_id)
+
+    return render(request, "auctions/category.html", {
+        "listings": listings
+    })

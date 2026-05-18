@@ -1,0 +1,9 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+    {% for listing in listings %}
+        {{ listing.title }}
+    {% endfor %}
+
+{% endblock body %}
