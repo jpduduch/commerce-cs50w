@@ -6,8 +6,9 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.views.decorators.http import require_POST
 
-from .models import User, Listing, Comment, Category
 from .forms import ListingForm, BiddingForm, CommentingForm
+from .models import User, Listing, Comment, Category
+from .utils import is_watchlist
 
 
 def index(request):
@@ -128,6 +129,7 @@ def listing(request, listing_id):
         "listing": listing,
         "bidding_form": bidding_form,
         "comments": comments,
+        "is_watchlist": is_watchlist(request, listing_id),
         "commenting_form": commenting_form
     })
 
@@ -191,3 +193,17 @@ def category_filter(request, category_id):
         "category": category,
         "listings": listings
     })
+
+
+@require_POST
+@login_required
+def watchlist_manage(request, listing_id):
+
+    listing = get_object_or_404(Listing, pk=listing_id)
+
+    if is_watchlist(request, listing_id):
+        request.user.watchlist.remove(listing)
+    else:
+        request.user.watchlist.add(listing)
+
+    return redirect("listing", listing_id)

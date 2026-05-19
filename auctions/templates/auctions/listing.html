@@ -21,12 +21,22 @@
                 {% if user.is_authenticated %}
                     <form action="{% url 'place_bid' listing.id %}" method="post">
                         {% csrf_token %}
-                        <div class="d-flex flex-column gap-1 my-4">
+                        <div class="d-flex flex-column gap-1 mt-4">
                             {{ bidding_form }}
                             <input type="submit" class="btn btn-primary" value="Place bid">
                         </div>
                     </form>
                 {% endif %}
+                <form action="{% url 'watchlist_manage' listing.id %}" method="post">
+                    <div class="d-flex flex-column gap-1 mt-1 mb-4">
+                        {% csrf_token %}
+                        {% if is_watchlist %}
+                            <input type="submit" class="btn btn-outline-danger" value="Remove from watchlist">
+                        {% else %}
+                             <input type="submit" class="btn btn-outline-secondary" value="Add to watchlist">
+                        {% endif %}
+                    </div>
+                </form>
                 <hr>
                 <p>{{ listing.description }}</p>
             </div>
