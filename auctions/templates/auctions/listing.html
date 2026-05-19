@@ -37,6 +37,12 @@
                         {% endif %}
                     </div>
                 </form>
+                {% if listing.seller == user %}
+                    <form action="{% url "close_auction" %}" method="post">
+                        {% csrf_token %}
+                        
+                    </form>
+                {% endif %}
                 <hr>
                 <p>{{ listing.description }}</p>
             </div>
