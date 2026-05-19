@@ -13,7 +13,8 @@ from .utils import is_watchlist
 
 def index(request):
     
-    return render(request, "auctions/index.html", {
+    return render(request, "auctions/grid_view.html", {
+        "title": "Active listings",
         "listings": Listing.objects.all().order_by('-creation_date')
     })
 
@@ -189,9 +190,16 @@ def category_filter(request, category_id):
     listings = Listing.objects.filter(category=category_id)
     category = get_object_or_404(Category, pk=category_id)
 
-    return render(request, "auctions/category.html", {
-        "category": category,
+    return render(request, "auctions/grid_view.html", {
+        "title": f"Active listings for '{ category }':",
         "listings": listings
+    })
+
+
+def watchlist(request):
+    return render(request, "auctions/grid_view.html", {
+        "title": "Watchlist",
+        "listings": request.user.watchlist.all()
     })
 
 
