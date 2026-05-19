@@ -185,7 +185,9 @@ def categories(request):
 
 def category_filter(request, category_id):
     listings = Listing.objects.filter(category=category_id)
+    category = get_object_or_404(Category, pk=category_id)
 
     return render(request, "auctions/category.html", {
+        "category": category,
         "listings": listings
     })

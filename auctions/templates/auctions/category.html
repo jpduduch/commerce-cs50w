@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block body %}
-    <h2>Active Listings for this category</h2>
+    <h2>Active Listings for '{{ category }}':</h2>
 
     <section class="container row">
         {% for listing in listings %}
