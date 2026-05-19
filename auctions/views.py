@@ -126,7 +126,6 @@ def listing(request, listing_id):
 
     return render(request, "auctions/listing.html", {
         "listing": listing,
-        "category_id": category,
         "bidding_form": bidding_form,
         "comments": comments,
         "commenting_form": commenting_form
@@ -184,7 +183,7 @@ def categories(request):
     })
 
 
-def category(request, category_id):
+def category_filter(request, category_id):
     listings = Listing.objects.filter(category=category_id)
 
     return render(request, "auctions/category.html", {
