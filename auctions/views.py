@@ -216,7 +216,11 @@ def category_filter(request, category_id):
     })
 
 
+
 def watchlist(request):
+    if not request.user.is_authenticated:
+        return redirect("login")
+    
     return render(request, "auctions/grid_view.html", {
         "title": "Watchlist",
         "listings": request.user.watchlist.all()

@@ -9,6 +9,8 @@
             <li>
                 <a href="{% url "category_filter" category.id %}">{{ category.name }} ({{ category.count }} items)</a>
             </li>
+        {% empty %}
+            <p>No categories.</p>
         {% endfor %}
     </ul>
 
