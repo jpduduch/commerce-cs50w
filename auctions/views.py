@@ -130,7 +130,7 @@ def listing(request, listing_id):
         "listing": listing,
         "bidding_form": bidding_form,
         "comments": comments,
-        "is_watchlist": is_watchlist(request, listing_id) if request.user.is_authenticated else False,
+        "is_watchlist": is_watchlist(request, listing_id),
         "commenting_form": commenting_form
     })
 
