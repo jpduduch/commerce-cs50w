@@ -8,7 +8,7 @@ from django.views.decorators.http import require_POST
 
 from .forms import ListingForm, BiddingForm, CommentingForm
 from .models import User, Listing, Comment, Category
-from .utils import is_watchlist
+from .utils import is_watchlist, is_owner
 
 
 def index(request):
@@ -130,7 +130,7 @@ def listing(request, listing_id):
         "listing": listing,
         "bidding_form": bidding_form,
         "comments": comments,
-        "is_watchlist": is_watchlist(request, listing_id),
+        "is_watchlist": is_watchlist(request, listing_id) if request.user.is_authenticated else False,
         "commenting_form": commenting_form
     })
 
@@ -215,3 +215,17 @@ def watchlist_manage(request, listing_id):
         request.user.watchlist.add(listing)
 
     return redirect("listing", listing_id)
+
+
+@require_POST
+@login_required
+def close_auction(request, listing_id):
+    
+    listing = get_object_or_404(Listing, pk=listing_id)
+
+    if is_owner(request, listing):
+        listing.is_active = False
+        listing.save()
+    return redirect("listing", listing_id)
+    
+

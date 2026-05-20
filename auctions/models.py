@@ -32,6 +32,7 @@ class Listing(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
     thumbnail = models.ImageField(blank=True, null=True, upload_to="listings/")
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True, related_name="items")
+    is_active = models.BooleanField(default=True)
 
     @property
     def current_price(self):
