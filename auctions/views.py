@@ -1,13 +1,14 @@
+from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.views.decorators.http import require_POST
 
 from .forms import ListingForm, BiddingForm, CommentingForm
-from .models import User, Listing, Comment, Category
+from .models import User, Listing, Comment, Category, Bid
 from .utils import is_watchlist, is_owner
 
 
@@ -125,11 +126,18 @@ def listing(request, listing_id):
     # handles the comment data
     if comment_data:
         commenting_form.is_valid()
+    
+    highest_bid = Bid.objects.filter(listing=listing).order_by("-value").first()
+    highest_bidder = highest_bid.bidder if highest_bid else None
+
+    if highest_bidder == request.user and not listing.is_active:
+        messages.success(request, "You won the bidding!")
 
     return render(request, "auctions/listing.html", {
         "listing": listing,
         "bidding_form": bidding_form,
         "comments": comments,
+        "highest_bidder": highest_bidder,
         "is_watchlist": is_watchlist(request, listing_id),
         "commenting_form": commenting_form
     })
@@ -140,16 +148,28 @@ def listing(request, listing_id):
 def place_bid(request, listing_id):
     
     form = BiddingForm(request.POST)
+    listing = get_object_or_404(Listing, pk=listing_id)
 
     if not form.is_valid():
         request.session["bid_data"] = request.POST.dict()
         return redirect("listing", listing_id=listing_id)
     
-    listing = get_object_or_404(Listing, pk=listing_id)
+    if not listing.is_active:
+        messages.error(request, "Sorry, this listing has ended.")
+        return redirect("listing", listing_id=listing_id)
     
-    if form.cleaned_data["value"] <= listing.current_price:
+    highest_bid = Bid.objects.filter(listing=listing).order_by("-value").first()
+    highest_bidder = highest_bid.bidder if highest_bid else None
+    value = form.cleaned_data["value"]
+    
+    if (value <= listing.current_price and highest_bidder != None) or (value < listing.starting_price and highest_bidder == None):
         request.session["bid_data"] = request.POST.dict()
         request.session["bid_error"] = {"value": "Bid must be higher than current price."}
+        return redirect("listing", listing_id=listing_id)
+    
+    if listing.seller == request.user:
+        request.session["bid_data"] = request.POST.dict()
+        request.session["bid_error"] = {"value": "You cannot place bids on your own listings."}
         return redirect("listing", listing_id=listing_id)
     
     bid = form.save(commit=False)
@@ -204,8 +224,10 @@ def watchlist(request):
 
 
 @require_POST
-@login_required
 def watchlist_manage(request, listing_id):
+
+    if not request.user.is_authenticated:
+        return redirect("login")
 
     listing = get_object_or_404(Listing, pk=listing_id)
 
